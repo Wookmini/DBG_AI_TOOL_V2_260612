@@ -197,7 +197,7 @@ function showAuth() {
     switchView(authView);
 }
 
-function handleAuthSubmit() {
+async function handleAuthSubmit() {
     const empId = empIdInput.value.trim();
     const empName = empNameInput.value.trim();
 
@@ -206,22 +206,48 @@ function handleAuthSubmit() {
         return;
     }
 
-    // 로컬 스토리지에서 해당 사번의 참여 여부 확인
-    const storageKey = `db_ai_quiz_${empId}`;
-    if (localStorage.getItem(storageKey)) {
-        authError.innerText = "해당 사번은 이미 진단에 참여하였습니다.";
+    // 서버로 사번 중복 확인 요청
+    authError.style.color = '#1e88e5'; // 로딩 안내 메시지 (파란색)
+    authError.innerText = "참여 이력을 확인 중입니다...";
+    
+    // 버튼 비활성화 방어
+    const authSubmitBtn = document.querySelector('#auth-view .btn');
+    if(authSubmitBtn) authSubmitBtn.disabled = true;
+
+    try {
+        if (GAS_URL && GAS_URL !== "YOUR_GAS_URL_HERE") {
+            const checkUrl = `${GAS_URL}?action=check&empId=${encodeURIComponent(empId)}`;
+            const response = await fetch(checkUrl);
+            const resultData = await response.json();
+
+            if (resultData.exists) {
+                authError.style.color = '#d32f2f'; // 에러 색상 (빨간색) 복구
+                authError.innerText = "해당 사번은 이미 진단에 참여하였습니다.";
+                if(authSubmitBtn) authSubmitBtn.disabled = false;
+                return;
+            }
+        }
+    } catch (error) {
+        console.error("중복 확인 중 에러 발생:", error);
+        // CORS 문제나 네트워크 에러 시 사용자가 영원히 갇히는 것을 방지하기 위해 
+        // 실전에서는 아래를 풀고 에러를 띄우거나, 무시하고 진행하게 설계할 수 있습니다.
+        // 현재는 무시하고 진행하도록 하되, 엄격하게 막으려면 주석을 해제하세요.
+        /*
+        authError.style.color = '#d32f2f';
+        authError.innerText = "네트워크 오류로 확인에 실패했습니다. 다시 시도해주세요.";
+        if(authSubmitBtn) authSubmitBtn.disabled = false;
         return;
+        */
     }
 
+    // 검증 성공 후 진행
+    authError.style.color = ''; // 기존 색상으로 초기화
     authError.innerText = "";
+    if(authSubmitBtn) authSubmitBtn.disabled = false;
 
     // 전역 변수에 사번/성명 저장 (결과 전송 시 사용)
     currentEmpId = empId;
     currentEmpName = empName;
-
-    // 진단 완료 시가 아닌, 시작할 때 기록하여 중간 이탈 후 재참여도 방지할 수 있음.
-    // (완료 후 기록하려면 showResult에서 세팅하도록 변경 가능)
-    localStorage.setItem(storageKey, JSON.stringify({ name: empName, date: new Date().toISOString() }));
 
     startQuiz();
 }
