@@ -61,17 +61,29 @@ function doGet(e) {
     }
     
     // ============================================
-    // 2. 중복 참여 여부 확인 (첫 번째 설문응답 시트)
+    // 2. 중복 참여 여부 확인 (사번성명_RAWDATA가 아닌 시트)
     // ============================================
-    var responseSheet = ss.getSheets()[0]; 
-    var data = responseSheet.getDataRange().getValues();
+    var sheets = ss.getSheets();
+    var responseSheet = null;
+    
+    // '사번성명_RAWDATA'가 아닌 첫 번째 시트를 응답 시트로 간주
+    for (var k = 0; k < sheets.length; k++) {
+      if (sheets[k].getName() !== "사번성명_RAWDATA") {
+        responseSheet = sheets[k];
+        break;
+      }
+    }
+    
     var exists = false;
     
-    for (var j = 1; j < data.length; j++) {
-      // 설문응답 시트의 B열(인덱스 1)이 사번이라고 가정
-      if (String(data[j][1]).trim() === empId) {
-        exists = true;
-        break;
+    if (responseSheet) {
+      var data = responseSheet.getDataRange().getValues();
+      for (var j = 1; j < data.length; j++) {
+        // 혹시 열 순서가 다를 수 있으니 1, 2, 3번째 열 모두에서 사번을 검사 (보통 2번째 열에 위치)
+        if (String(data[j][0]).trim() === empId || String(data[j][1]).trim() === empId || String(data[j][2]).trim() === empId) {
+          exists = true;
+          break;
+        }
       }
     }
     
@@ -89,10 +101,40 @@ function doPost(e) {
   output.setMimeType(ContentService.MimeType.TEXT);
   
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-    var data = JSON.parse(e.postData.contents);
-    sheet.appendRow(data);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheets = ss.getSheets();
+    var sheet = null;
     
+    // '사번성명_RAWDATA'가 아닌 시트에 데이터 저장
+    for (var k = 0; k < sheets.length; k++) {
+      if (sheets[k].getName() !== "사번성명_RAWDATA") {
+        sheet = sheets[k];
+        break;
+      }
+    }
+    
+    var data = JSON.parse(e.postData.contents);
+    
+    // JSON 객체를 1차원 배열로 변환 (appendRow는 배열만 받습니다)
+    var rowData = [
+      new Date(),       // Timestamp
+      data.empId,       // 사번
+      data.empName,     // 이름
+      data.score,       // 총점 (선택적)
+      data.q1 || "",
+      data.q2_1 || "",
+      data.q2_2 || "",
+      data.q3_1 || "",
+      data.q3_2 || "",
+      data.q4 || "",
+      data.q5_1 || "",
+      data.q5_2 || "",
+      data.q6 || "",
+      data.q7 || "",
+      data.q8 || ""
+    ];
+    
+    sheet.appendRow(rowData);
     output.setContent("Success");
   } catch(error) {
     output.setContent("Error: " + error.toString());
