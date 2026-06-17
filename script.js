@@ -41,97 +41,6 @@ const questions = [
             { text: "배경 상황과 역할, 원하는 출력 형식을 구체적으로 지정하여 질문한다.", score: 3 },
             { text: "사내 데이터나 특정 예시를 제공하여 나만의 고도화된 프롬프트 템플릿을 보유하고 있다.", score: 4 }
         ]
-    },
-    {
-        category: "윤리/보안",
-        question: "회사 업무로 AI를 사용할 때 보안 의식은 어느 정도인가요?",
-        options: [
-            { text: "보안 규정에 대해 잘 모른 채 외부 AI 툴에 사내 정보를 입력한 적이 있다.", score: 1 },
-            { text: "주의해야 한다는 것은 알지만, 어떤 정보를 넣으면 안 되는지 명확히 모른다.", score: 2 },
-            { text: "사내 보안 가이드라인을 인지하고 있으며 기밀 정보는 절대 입력하지 않는다.", score: 3 },
-            { text: "보안에 완벽히 대응하며, 타 부서나 동료들에게도 보안의 중요성을 가이드한다.", score: 4 }
-        ]
-    },
-    {
-        category: "윤리/보안",
-        question: "AI가 생성한 정보의 환각 현상(거짓 정보)에 대해 어떻게 대처하나요?",
-        options: [
-            { text: "AI가 제시한 정보를 대부분 사실이라고 믿고 그대로 사용한다.", score: 1 },
-            { text: "가끔 이상한 결과가 나오면 당황하거나 사용을 포기한다.", score: 2 },
-            { text: "항상 교차 검증을 통해 팩트 체크를 진행한 후 업무에 반영한다.", score: 3 },
-            { text: "환각을 최소화하기 위한 프롬프트 기법을 사용하며, 결과물을 비판적으로 분석한다.", score: 4 }
-        ]
-    },
-    {
-        category: "일상생활",
-        question: "주말에 배달 음식을 시켜 먹으려고 할 때, 나의 메뉴 선택 방식은?",
-        options: [
-            { text: "익숙한 단골집에서 늘 먹던 메뉴를 시킨다.", score: 1 },
-            { text: "배달 앱의 평점과 리뷰를 꼼꼼히 읽어보고 고른다.", score: 2 },
-            { text: "SNS나 블로그에서 요즘 유행하는 맛집을 검색해서 찾아본다.", score: 3 },
-            { text: "AI 챗봇에게 내 취향과 현재 기분을 말하고 메뉴를 추천받는다.", score: 4 }
-        ]
-    },
-    {
-        category: "일상생활",
-        question: "새로운 가전제품이나 전자기기를 구매했을 때, 나는?",
-        options: [
-            { text: "설명서는 읽지 않고 일단 버튼부터 눌러본다.", score: 1 },
-            { text: "기본적인 사용법만 설명서에서 찾아보고 사용한다.", score: 2 },
-            { text: "유튜브 등에서 사용 꿀팁 영상을 찾아보고 기능들을 익힌다.", score: 3 },
-            { text: "기기의 모든 스마트 기능(AI 연동, 루틴 설정 등)을 100% 세팅해둔다.", score: 4 }
-        ]
-    }
-];
-
-const results = [
-    {
-        minScore: 8,
-        maxScore: 14,
-        level: 1,
-        title: "AI 탐험가 (Beginner)",
-        desc: "AI 기술의 가능성을 이제 막 인지하기 시작하셨군요! 아직은 기존의 업무 방식이 익숙하시겠지만, AI는 생각보다 우리의 수고를 크게 덜어줄 수 있습니다.",
-        tips: [
-            "사내 인트라넷이나 포털에 있는 간단한 AI 기능부터 가볍게 테스트해 보세요.",
-            "메일 번역이나 회의록 요약 등 뻔하고 반복적인 작업부터 AI에게 맡겨보세요.",
-            "사내 AI 보안 가이드라인을 우선적으로 숙지하는 것이 중요합니다."
-        ]
-    },
-    {
-        minScore: 15,
-        maxScore: 22,
-        level: 2,
-        title: "AI 실무자 (Intermediate)",
-        desc: "AI를 업무 생산성 향상 도구로 적절히 활용하고 계십니다! 검색이나 단순 요약 기능을 넘어서 조금 더 고도화된 작업을 AI와 함께 해볼 차례입니다.",
-        tips: [
-            "질문할 때 '배경 상황, 원하는 형태, 참고 예시'를 구체적으로 적는 연습을 해보세요.",
-            "엑셀 수식 작성이나 간단한 파이썬 스크립트 작성에 AI를 활용해 보세요.",
-            "동료들이 어떻게 AI를 활용하는지 사례를 공유하고 적용해 보세요."
-        ]
-    },
-    {
-        minScore: 23,
-        maxScore: 28,
-        level: 3,
-        title: "AI 협업가 (Advanced)",
-        desc: "훌륭합니다! DB 글로벌칩의 업무 특성을 잘 이해하고 전문적인 직무 영역(분석, 최적화, 기획)에 AI 전반을 능숙하게 결합하고 계시네요.",
-        tips: [
-            "본인만의 성공적인 프롬프트(명령어) 템플릿을 만들어 팀 내에 공유해 보세요.",
-            "반도체 스펙 분석이나 데이터 전처리 자동화 등 더 복잡한 파이프라인에 AI를 적용해 보세요.",
-            "AI 결과물의 논리적 오류를 비판적으로 검증하는 시각을 지속 유지하세요."
-        ]
-    },
-    {
-        minScore: 29,
-        maxScore: 32,
-        level: 4,
-        title: "AI 개척자 (Expert)",
-        desc: "상위 1%의 AI 활용 능력을 갖추셨습니다! 스스로 업무 혁신을 이끌 뿐만 아니라 사내 AI 문화를 선도할 수 있는 전문가입니다.",
-        tips: [
-            "DB 글로벌칩 내의 AI 활용 베스트 프랙티스를 발굴하고 사내 교육/세미나 등을 주도해 보세요.",
-            "팀 단위의 업무 프로세스 자체를 AI 친화적으로 리모델링할 수 있는 방안을 기획해 보세요.",
-            "AI 도입으로 발생할 수 있는 보안 및 윤리적 리스크를 선제적으로 관리해 주세요."
-        ]
     }
 ];
 
@@ -170,10 +79,7 @@ const nextBtn = document.getElementById('next-btn');
 const subjectiveSubmitBtn = document.getElementById('subjective-submit-btn');
 const subjectivePrevBtn = document.getElementById('subjective-prev-btn');
 
-const resultTitle = document.getElementById('result-title');
-const resultScoreVal = document.getElementById('result-score-val');
-const resultDesc = document.getElementById('result-desc');
-const resultTips = document.getElementById('result-tips');
+
 const restartBtn = document.getElementById('restart-btn');
 
 // Event Listeners
@@ -389,20 +295,20 @@ function addInputRow(containerId, inputClass) {
 function showLoading() {
     switchView(loadingView);
 
-    // Determine Level
-    let finalResult = results[0];
-    for (let r of results) {
-        if (totalScore >= r.minScore && totalScore <= r.maxScore) {
-            finalResult = r;
-            break;
-        }
-    }
+    // 사용자가 선택한 문항의 텍스트 추출 (결과 취합용)
+    const q1Ans = shuffledQuestions[0] ? shuffledQuestions[0].options.find(opt => opt.score === userSelections[0])?.text : '';
+    const q2Ans = shuffledQuestions[1] ? shuffledQuestions[1].options.find(opt => opt.score === userSelections[1])?.text : '';
+    const q3Ans = shuffledQuestions[2] ? shuffledQuestions[2].options.find(opt => opt.score === userSelections[2])?.text : '';
+    const q4Ans = shuffledQuestions[3] ? shuffledQuestions[3].options.find(opt => opt.score === userSelections[3])?.text : '';
 
     const payload = {
         empId: currentEmpId,
         empName: currentEmpName,
         score: totalScore,
-        levelTitle: finalResult.title,
+        q1: q1Ans || '',
+        q2: q2Ans || '',
+        q3: q3Ans || '',
+        q4: q4Ans || '',
         currentTool: subjCurrentTool,
         wantTool: subjWantTool
     };
@@ -426,27 +332,11 @@ function showLoading() {
 
     // 로딩 최소 1.5초 대기 후 결과 화면 표시
     Promise.all([minimumLoadingTime, fetchPromise]).then(() => {
-        showResult(finalResult);
+        showResult();
     });
 }
 
-function showResult(finalResult) {
-    // Set Result Content
-    resultTitle.innerText = finalResult.title;
-    resultScoreVal.innerText = totalScore;
-    resultDesc.innerText = finalResult.desc;
-
-    // Clear custom level classes
-    resultView.classList.remove('level-1', 'level-2', 'level-3', 'level-4');
-    resultView.classList.add(`level-${finalResult.level}`);
-
-    resultTips.innerHTML = '';
-    finalResult.tips.forEach(tip => {
-        const li = document.createElement('li');
-        li.innerText = tip;
-        resultTips.appendChild(li);
-    });
-
+function showResult() {
     switchView(resultView);
 }
 
