@@ -131,7 +131,9 @@ function doPost(e) {
       data.q5_2 || "",
       data.q6 || "",
       data.q7 || "",
-      data.q8 || ""
+      data.q8_1 || "",
+      data.q8_2 || "",
+      data.q9 || ""
     ];
     
     sheet.appendRow(rowData);

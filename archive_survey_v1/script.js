@@ -1,5 +1,5 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/macros/s/AKfycbziwgEwYGY3B0O9ahgVX_7-BuyKyO78BRl3LeAADC3Kn8blmhzYbPSZ2gF9c8Dcm8qSSQ/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz5QLtkQB-EmKr56qq4aDAEootMZiSELTRhYWHKpbSOhDaVE7dV2gLDzHQmn991dRvrjw/exec";
 
 const questions = [
     {
@@ -17,7 +17,6 @@ const questions = [
         maxSelect: 2,
         question: "업무나 일상에서 주로 어떤 AI Tool을 사용하시나요? (최대 2개)",
         options: [
-            { text: "Microsoft Copilot" },
             { text: "ChatGPT" },
             { text: "Gemini" },
             { text: "Claude" },
@@ -54,8 +53,6 @@ const questions = [
         options: [
             { text: "Microsoft Copilot" },
             { text: "ChatGPT" },
-            { text: "Gemini" },
-            { text: "Claude" },
             { text: "DeepL" },
             { text: "Notion AI" },
             { text: "기타", hasDynamicInput: true }
@@ -66,30 +63,23 @@ const questions = [
         question: "향후 AI 활용법을 배우고, 동료들에게 노하우를 공유하는<br>'사내 AI 강사 프로그램'을 진행한다면 참여할 의향이 있으신가요?",
         options: [
             { text: "기회가 된다면 적극적으로 참여하겠습니다!" },
-            { text: "관심은 있지만, 좀 더 배워보고 결정하고 싶습니다." },
-            { text: "아직은 다른 분들이 하는걸 지켜보고 싶습니다." }
+            { text: "관심이 있습니다. 일단 먼저 충분히 배워보고 결정하고 싶습니다." },
+            { text: "아직은 다른 분들이 먼저 하는걸 지켜보고 싶습니다." }
         ]
     },
     {
-        type: "text",
-        question: "주변에 AI를 잘 활용하거나,<br>지식을 잘 공유해주시는 분이 있다면 추천해 주세요!",
-        placeholder: "답변을 자유롭게 적어주세요. (선택)",
-        optional: true
-    },
-    {
-        type: "multiple",
-        maxSelect: 2,
-        question: "AI를 잘 활용하기 위해, 당장 듣고 싶은 교육은 무엇인가요?<br>(최대 2개)",
+        type: "single",
+        question: "AI를 잘 활용하기 위해, 당장 듣고 싶은 교육은 무엇인가요?",
         options: [
             { text: "AI에게 똑똑하게 질문하는 법 (프롬프트 활용)" },
             { text: "내 업무에 바로 써먹는 맞춤형 AI 툴 활용법" },
             { text: "동료들의 실무 적용 사례 공유회" },
-            { text: "기타", hasDynamicInput: true }
+            { text: "기타", hasInput: true }
         ]
     },
     {
         type: "text",
-        question: "AI 도입 및 교육에 있어, 회사가 어떤 점을 준비하면 좋을까요?<br>아이디어나 건의사항이 있다면 자유롭게 알려주세요!",
+        question: "AI 도입 및 교육에 있어, 회사가 어떤 점을 준비하면 좋을까요?<br>작은 아이디어나 건의사항이 있다면 자유롭게 알려주세요!",
         placeholder: "답변을 자유롭게 적어주세요. (선택)",
         optional: true
     }
@@ -556,7 +546,7 @@ function showLoading() {
         }
     });
 
-    // 최대 2개까지 선택 가능한 문항(Q2, Q3, Q5, Q8)은 분리하여 전송
+    // 최대 2개까지 선택 가능한 문항(Q2, Q3, Q5)은 분리하여 전송
     const payload = {
         empId: currentEmpId,
         empName: currentEmpName,
@@ -571,9 +561,7 @@ function showLoading() {
         q5_2: answers[4][1] || '',
         q6: answers[5][0] || '',
         q7: answers[6][0] || '',
-        q8_1: answers[7][0] || '',
-        q8_2: answers[7][1] || '',
-        q9: answers[8][0] || ''
+        q8: answers[7][0] || ''
     };
 
     // 1.5초 기본 로딩 시간 보장 및 fetch 비동기 처리
