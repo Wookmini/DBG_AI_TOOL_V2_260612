@@ -120,7 +120,6 @@ function doPost(e) {
       new Date(),       // Timestamp
       data.empId,       // 사번
       data.empName,     // 이름
-      data.score,       // 총점 (선택적)
       data.q1 || "",
       data.q2_1 || "",
       data.q2_2 || "",

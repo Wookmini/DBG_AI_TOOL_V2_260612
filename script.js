@@ -560,7 +560,6 @@ function showLoading() {
     const payload = {
         empId: currentEmpId,
         empName: currentEmpName,
-        score: totalScore,
         q1: answers[0][0] || '',
         q2_1: answers[1][0] || '',
         q2_2: answers[1][1] || '',
